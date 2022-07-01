@@ -26,7 +26,10 @@
 
         // return e('button', {onClick: () => this.setState({liked: true})}, 'Like');
         return (
-            <button onClick={() => this.setState({liked: true})}>
+            <button onClick={() => {
+                // this.state.liked = true;
+                this.setState({liked: true})
+            }}>
                 Like
             </button>
         )
@@ -35,7 +38,7 @@
 </script>
 <script type="text/babel">
     // ReactDOM.render(<LikeButton />, document.querySelector('#root')); React 17버전 코드
-    ReactDOM.creatRoot(document.querySelector('#root')).render(<LikeButton />) // React 18버전 코드
+    ReactDOM.createRoot(document.querySelector('#root')).render(<LikeButton />) // React 18버전 코드
 </script>
 </body>
 </html>
