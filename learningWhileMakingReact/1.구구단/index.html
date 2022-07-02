@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>구구단</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="root"></div>
@@ -61,16 +62,16 @@
         render() {
             console.log('렌더링');
             return (
-                <React.Fragment>
-                    <div>{this.state.first} 곱하기 {this.state.second}는?</div>
+                <article>
+                    <h1 className="gugudanTitle">{this.state.first} x {this.state.second}</h1>
                         <form onSubmit={(this.onSubmit)}>
                             <input ref={this.onRefInput} type="number" value={this.state.value} onChange={this.onChange} />
-                            <button type="submit">입력!</button>
-                            <div>
+                            <button type="submit" className="gugudanButton">입력</button>
+                            <strong>
                                 {this.state.result} 
-                            </div>
+                            </strong>
                         </form>    
-                </React.Fragment>
+                </article>
             );
         }
     }
