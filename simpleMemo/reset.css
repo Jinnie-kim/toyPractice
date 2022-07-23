@@ -1,8 +1,13 @@
 /* Reset CSS */
 
+
+@import url('//cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@latest/neodgm/style.css');
+
+
 * {
   box-sizing: border-box;
   margin: 0;
+  font-family: 'NeoDunggeunmo';
 }
 
 a {
@@ -14,12 +19,13 @@ button {
   border: none;
   background-color: transparent;
   cursor: pointer;
+  padding: 0;
 }
 
 button,
 textarea,
 input {
-  font-family: inherit;
+  font-family: 'NeoDunggeunmo';
   font-size: 16px;
 }
 
@@ -129,7 +135,7 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
+  font-family: 'NeoDunggeunmo';
   vertical-align: baseline;
 }
 
@@ -168,13 +174,6 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-
-button {
-  width: 100%;
-  border: none;
-  padding: 0;
-  font: inherit;
 }
 
 .irText {
