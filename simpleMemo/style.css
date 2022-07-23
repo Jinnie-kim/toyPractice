@@ -1,0 +1,67 @@
+/* style css */
+
+/* color chip */
+
+/* #afc0aa, #c4cbd9, #f2ebde, #b9e4e1, #f2dfde */
+
+.memo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+  background-color: #d7d7d7;
+  border: 2px solid #000000;
+}
+
+.memo .topbar_buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 25px;
+  padding: 4.5px;
+  background-color: #d2ccf0;
+  border-bottom: 2px solid #000000;
+}
+
+.memo .topbar_buttons button {
+  width: 16px;
+  height: 16px;
+  color: #000000;
+  background-color: #d7d7d7;
+  border-top: 1px solid #000000;
+  border-left: 1px solid #000000;
+  border-right: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+}
+
+.memo .topbar_buttons button + button {
+  margin-left: 3px;
+}
+
+.memo_writeArea {
+  width: 230px;
+  height: 200px;
+  margin: 20px 0;
+  border: 2px solid #000000;
+  font-size: 14px;
+  resize: none;
+}
+
+.bottomBar-buttons {
+  margin-bottom: 20px;
+}
+
+.bottomBar-buttons button{
+  width: 70px;
+  height: 30px;
+  margin: 0 auto;
+  background-color: #d2ccf0;
+  border-top: 1px solid #000000;
+  border-left: 1px solid #000000;
+  border-right: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+}
