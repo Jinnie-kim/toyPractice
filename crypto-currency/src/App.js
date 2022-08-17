@@ -3,6 +3,11 @@ import { useEffect, useState } from 'react';
 function App() {
   const [loading, setLoading] = useState(true);
   const [coins, setCoins] = useState([]);
+  // dollar state
+  const [dollar, setDollar] = useState(0);
+  const getInputDollar = (event) => {
+    setDollar(event.target.value);
+  };
   useEffect(() => {
     fetch('https://api.coinpaprika.com/v1/tickers')
       .then((response) => response.json())
@@ -22,10 +27,10 @@ function App() {
             ))}
           </select>
           <hr />
-          <input type="number" />
+          <input type="number" value={dollar} onChange={getInputDollar} />
           <label>USD</label>
           <br />
-          <input type="number" />
+          <input type="number" value={dollar} onChange={getInputDollar} />
           <label>crypto단위</label>
         </div>
       )}
