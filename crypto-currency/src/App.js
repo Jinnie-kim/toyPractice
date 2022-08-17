@@ -5,8 +5,12 @@ function App() {
   const [coins, setCoins] = useState([]);
   // dollar state
   const [dollar, setDollar] = useState(0);
+  const [selected, setSelected] = useState(0);
   const getInputDollar = (event) => {
     setDollar(event.target.value);
+  };
+  const getSelectedCrypto = (event) => {
+    setSelected(event.target.value);
   };
   useEffect(() => {
     fetch('https://api.coinpaprika.com/v1/tickers')
@@ -21,9 +25,11 @@ function App() {
         <strong>Loading...👻</strong>
       ) : (
         <div>
-          <select>
-            {coins.map((coin) => (
-              <option key={coin.id}>{coin.name}</option>
+          <select value={selected} onChange={getSelectedCrypto}>
+            {coins.map((coin, index) => (
+              <option key={coin.id} value={index}>
+                {coin.name}
+              </option>
             ))}
           </select>
           <hr />
