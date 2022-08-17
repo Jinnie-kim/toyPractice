@@ -6,11 +6,15 @@ function App() {
   // dollar state
   const [dollar, setDollar] = useState(0);
   const [selected, setSelected] = useState(0);
+  const [inverted, setInverted] = useState(true);
   const getInputDollar = (event) => {
     setDollar(event.target.value);
   };
   const getSelectedCrypto = (event) => {
     setSelected(event.target.value);
+  };
+  const handleInverted = () => {
+    setInverted(!inverted);
   };
   useEffect(() => {
     fetch('https://api.coinpaprika.com/v1/tickers')
@@ -33,11 +37,23 @@ function App() {
             ))}
           </select>
           <hr />
-          <input type="number" value={dollar} onChange={getInputDollar} />
+          <input
+            type="number"
+            value={dollar}
+            onChange={getInputDollar}
+            disabled={!inverted}
+          />
           <label>USD</label>
           <br />
-          <input type="number" value={dollar} onChange={getInputDollar} />
+          <input
+            type="number"
+            value={dollar}
+            onChange={getInputDollar}
+            disabled={inverted}
+          />
           <label>crypto단위</label>
+          <br />
+          <button onClick={handleInverted}>Invert</button>
         </div>
       )}
     </div>
