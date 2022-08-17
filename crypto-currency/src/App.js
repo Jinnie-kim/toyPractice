@@ -4,7 +4,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [coins, setCoins] = useState([]);
   // dollar state
-  const [dollar, setDollar] = useState(0);
+  const [dollar, setDollar] = useState(1);
   const [selected, setSelected] = useState(0);
   const [inverted, setInverted] = useState(true);
   const getInputDollar = (event) => {
@@ -19,9 +19,11 @@ function App() {
   useEffect(() => {
     fetch('https://api.coinpaprika.com/v1/tickers')
       .then((response) => response.json())
-      .then((json) => setCoins(json));
-    setLoading(false);
-  });
+      .then((json) => {
+        setCoins(json);
+        setLoading(false);
+      });
+  }, []);
   return (
     <div className="App">
       <h1>🤡 Cryptocurrency Calculator 🤡</h1>
@@ -39,7 +41,7 @@ function App() {
           <hr />
           <input
             type="number"
-            value={dollar}
+            value={inverted ? dollar :(dollar * coins[selected].quotes.USD.price).toFixed(6)}
             onChange={getInputDollar}
             disabled={!inverted}
           />
@@ -47,7 +49,11 @@ function App() {
           <br />
           <input
             type="number"
-            value={dollar}
+            value={
+              inverted
+                ? (dollar / coins[selected].quotes.USD.price).toFixed(6)
+                : dollar
+            }
             onChange={getInputDollar}
             disabled={inverted}
           />
