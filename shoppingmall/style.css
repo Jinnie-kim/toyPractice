@@ -1,0 +1,27 @@
+/* Reset CSS */
+@import url('//cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@latest/neodgm/style.css');
+
+*{
+  box-sizing: border-box;
+  font-family: 'NeoDunggeunmo';
+}
+
+h1 {
+  margin: 0;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
