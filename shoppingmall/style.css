@@ -1,7 +1,7 @@
 /* Reset CSS */
 @import url('//cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@latest/neodgm/style.css');
 
-*{
+* {
   box-sizing: border-box;
   font-family: 'NeoDunggeunmo';
 }
@@ -24,4 +24,87 @@ ul {
 
 li {
   list-style-type: none;
+}
+
+/* Style CSS */
+
+body {
+  background-color: #363c44;
+}
+
+.shoppingmall {
+  width: 500px;
+  height: 700px;
+  margin: 0 auto;
+}
+
+.shoppingmall .shoppingmallLogo {
+  text-align: center;
+}
+
+/* Nav Buttons */
+
+.shoppingmallButton {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.shoppingmallButton button:hover {
+  scale: 1.2;
+}
+
+.shoppingmallButton img {
+  width: 40px;
+}
+
+.shoppingmallButton .colorButton {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.shoppingmallButton .colorButton.blue {
+  background-color: #357dbc;
+}
+
+.shoppingmallButton .colorButton.yellow {
+  background-color: #f8b625;
+}
+
+.shoppingmallButton .colorButton.pink {
+  background-color: #fd7478;
+}
+
+/* shoppingmall Item List */
+
+.shoppingmallItem {
+  margin-top: 30px;
+}
+
+.itemLists {
+  height: 500px;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.itemLists .item {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: #ffffff;
+}
+
+.itemLists .item+.item {
+  margin-top: 10px;
+}
+
+.itemLists .item img {
+  width: 35px;
+  margin-right: 20px;
 }
