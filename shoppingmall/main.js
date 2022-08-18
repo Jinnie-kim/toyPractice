@@ -1,6 +1,7 @@
 const shopItemList = document.querySelector('.itemLists');
 const blueButton = document.querySelector('.blue');
 const yellowButton = document.querySelector('.yellow');
+const pinkButton = document.querySelector('.pink');
 
 async function loadShopData() {
   const response = await fetch('./data/data.json');
@@ -52,3 +53,18 @@ function filterYellowItem() {
 }
 
 yellowButton.addEventListener('click', filterYellowItem);
+
+async function loadPinkItemData() {
+  const response = await fetch('./data/filter.json');
+  const json = await response.json();
+  return json.pink;
+}
+
+function filterPinkItem() {
+  shopItemList.innerHTML = '';
+  loadPinkItemData().then((items) => {
+    items.map((item) => shopItemList.append(makeShopListItem(item)));
+  });
+}
+
+pinkButton.addEventListener('click', filterPinkItem);
