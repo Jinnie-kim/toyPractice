@@ -2,6 +2,7 @@ const shopItemList = document.querySelector('.itemLists');
 const blueButton = document.querySelector('.blue');
 const yellowButton = document.querySelector('.yellow');
 const pinkButton = document.querySelector('.pink');
+const tShirtButton = document.querySelector('.tshirtButton');
 
 async function loadShopData() {
   const response = await fetch('./data/data.json');
@@ -68,3 +69,18 @@ function filterPinkItem() {
 }
 
 pinkButton.addEventListener('click', filterPinkItem);
+
+async function loadTShirtItemData() {
+  const response = await fetch('./data/filter.json');
+  const json = await response.json();
+  return json.tShirt;
+}
+
+function filterTShirtItem() {
+  shopItemList.innerHTML = '';
+  loadTShirtItemData().then((items) => {
+    items.map((item) => shopItemList.append(makeShopListItem(item)));
+  });
+}
+
+tShirtButton.addEventListener('click', filterTShirtItem);
