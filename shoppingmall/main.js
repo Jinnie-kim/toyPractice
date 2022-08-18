@@ -1,4 +1,5 @@
 const shopItemList = document.querySelector('.itemLists');
+const blueButton = document.querySelector('.blue');
 
 async function loadShopData() {
   const response = await fetch('./data/data.json');
@@ -20,3 +21,18 @@ function makeShopListItem(item) {
   list.append(image, description);
   return list;
 }
+
+async function loadBlueItemData() {
+  const response = await fetch('./data/filter.json');
+  const json = await response.json();
+  return json.blue;
+}
+
+function filterBlueItem() {
+  shopItemList.innerHTML = '';
+  loadBlueItemData().then((items) => {
+    items.map((item) => shopItemList.append(makeShopListItem(item)));
+  });
+}
+
+blueButton.addEventListener('click', filterBlueItem);
