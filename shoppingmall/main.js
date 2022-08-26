@@ -6,15 +6,20 @@ const tShirtButton = document.querySelector('.tshirtButton');
 const pantsButton = document.querySelector('.pantsButton');
 const skirtButton = document.querySelector('.skirtButton');
 
+loadShopData().then((items) => {
+  showItem(items);
+  setButtonFilterEvent(items);
+});
+
 async function loadShopData() {
   const response = await fetch('./data/data.json');
   const json = await response.json();
   return json.items;
 }
 
-loadShopData().then((items) => {
+function showItem(items) {
   items.map((item) => shopItemList.append(makeShopListItem(item)));
-});
+}
 
 function makeShopListItem(item) {
   const list = document.createElement('li');

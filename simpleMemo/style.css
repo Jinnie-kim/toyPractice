@@ -1,9 +1,31 @@
 /* style css */
 
-/* color chip */
+/* 메모 보드 UI */
 
-/* #afc0aa, #c4cbd9, #f2ebde, #b9e4e1, #f2dfde */
+.board {
+  width: 900px;
+  margin: 0 auto;
+  background-color: lightblue;
+}
 
+.board-topBar {
+  width: auto;
+  height: 30px;
+  background-color: lightcoral;
+}
+
+.board-folderArea {
+  width: auto;
+  height: 500px;
+  background-color: lightpink;
+}
+
+.board-bottom {
+  width: auto;
+  height: 30px;
+  background-color: lightsalmon;
+}
+/* 메모 작성 UI */
 .memo {
   display: flex;
   flex-direction: column;
