@@ -1,4 +1,6 @@
 const shopItemList = document.querySelector('.itemLists');
+const logoButton = document.querySelector('.logoButton');
+const buttons = document.querySelector('.shoppingmallButton');
 const blueButton = document.querySelector('.blue');
 const yellowButton = document.querySelector('.yellow');
 const pinkButton = document.querySelector('.pink');
@@ -30,6 +32,10 @@ function makeShopListItem(item) {
   description.innerHTML = `${item.gender}, ${item.size} size`;
   list.append(image, description);
   return list;
+}
+
+function setButtonFilterEvent(items) {
+  logoButton.addEventListener('click', () => showItem(items));
 }
 
 async function loadBlueItemData() {
