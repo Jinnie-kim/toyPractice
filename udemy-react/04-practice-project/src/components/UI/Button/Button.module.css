@@ -1,4 +1,5 @@
 .button {
+  width: 100%;
   border: 1px solid #e57b74;
   outline: none;
   padding: 0.5rem 1.5rem;
@@ -17,4 +18,10 @@
   background-color: #e16259;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
   border-color: #e16259;
+}
+
+@media (min-width: 768px) {
+  .button {
+    width: auto;
+  }
 }
