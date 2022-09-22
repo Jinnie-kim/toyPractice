@@ -1,3 +1,4 @@
+import Card from '../UI/Card';
 import classes from './AvailableMeals.module.css';
 
 const DUMMY_MEALS = [
@@ -31,11 +32,13 @@ const AvailableMeals = () => {
   // const mealsList = DUMMY_MEALS.map((meal) => <li>{meal.name}</li>); {mealList}만 ul 사이에 전달해도 됨
   return (
     <section className={classes.meals}>
-      <ul>
-        {DUMMY_MEALS.map((meal) => {
-          return <li>{meal.name}</li>;
-        })}
-      </ul>
+      <Card>
+        <ul>
+          {DUMMY_MEALS.map((meal) => {
+            return <li>{meal.name}</li>;
+          })}
+        </ul>
+      </Card>
     </section>
   );
 };
