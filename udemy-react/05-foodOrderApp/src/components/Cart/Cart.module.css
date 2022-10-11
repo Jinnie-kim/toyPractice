@@ -15,6 +15,15 @@
   overflow: scroll;
 }
 
+.cart-items::-webkit-scrollbar {
+  width: 10px;
+}
+
+.cart-items::-webkit-scrollbar-thumb {
+  background: #e2e2e2;
+  border-radius: 10px;
+}
+
 .actions {
   text-align: right;
 }
