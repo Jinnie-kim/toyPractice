@@ -24,9 +24,13 @@ const SimpleInput = (props) => {
     nameInputRef.current.value = '';
   };
 
+  const nameInputClasses = enteredNameIsValid
+    ? 'form-control'
+    : 'form-control invalid';
+
   return (
     <form onSubmit={formSubmissionHandler}>
-      <div className="form-control">
+      <div className={nameInputClasses}>
         <label htmlFor="name">Your Name</label>
         <input
           ref={nameInputRef}
@@ -35,7 +39,9 @@ const SimpleInput = (props) => {
           onChange={nameInputChangeHandler}
           value={enteredName}
         />
-        {!enteredNameIsValid && <p className='error-text'>Name must not be empty.</p>}
+        {!enteredNameIsValid && (
+          <p className="error-text">Name must not be empty.</p>
+        )}
       </div>
       <div className="form-actions">
         <button>Submit</button>
