@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Relay</title>
+  </head>
+  <body>
+    <section class="word-relay">
+      <div><span id="order">1</span>번째 참가자</div>
+      <div>제시어: <span id="presentedWord"></span></div>
+      <input type="text" class="word-input" />
+      <button class="word-submit-button">입력</button>
+    </section>
+  </body>
+  <script>
+    const number = parseInt(prompt("몇 명이 게임에 참가하나요?"));
+
+    const wordInput = document.querySelector(".word-input");
+    const wordSubmitButton = document.querySelector(".word-submit-button");
+    const presentedWord = document.querySelector("#presentedWord");
+    const playerOrder = document.querySelector("#order");
+    let word; // 제시어
+    let newWord; // 새로 입력된 값
+
+    const onClickButton = () => {
+      if (!word) {
+        word = newWord; // 제시어가 없으므로 입력된 단어를 제시어로 추가한다.
+        presentedWord.textContent = word;
+        let order = Number(playerOrder.textContent);
+        if (order + 1 > number) {
+          playerOrder.textContent = 1;
+        } else {
+          playerOrder.textContent = order + 1;
+        }
+        wordInput.value = "";
+        wordInput.focus();
+      } else {
+        // 제시어가 있으므로 입력된 단어가 올바른지 확인한다.
+
+        if (word[word.length - 1] === newWord[0]) {
+          // 올바를 때
+          word = newWord;
+          presentedWord.textContent = word;
+          let order = Number(playerOrder.textContent);
+          if (order + 1 > number) {
+            playerOrder.textContent = 1;
+          } else {
+            playerOrder.textContent = order + 1;
+          }
+          wordInput.value = "";
+          wordInput.focus();
+        } else {
+          // 올바르지 않을 때
+          alert("올바르지 않은 단어입니다.");
+          wordInput.value = "";
+          wordInput.focus();
+        }
+      }
+    };
+    const onInput = (event) => {
+      newWord = event.target.value;
+    };
+
+    wordInput.addEventListener("input", onInput);
+    wordSubmitButton.addEventListener("click", onClickButton);
+  </script>
+</html>
