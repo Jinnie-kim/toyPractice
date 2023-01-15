@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>self 쿵쿵따 게임</title>
+  </head>
+  <body>
+    <div>
+      <h1>쿵쿵따 게임</h1>
+      <p><span id="order">1</span>번째 참가자</p>
+      <p>제시어: <span id="presented-word"></span></p>
+      <input
+        type="text"
+        placeholder="제시어를 입력해주세요"
+        class="word-input"
+      />
+      <button type="button" class="word-submit">제시어 입력</button>
+    </div>
+  </body>
+  <script>
+    const playerNumber = prompt("몇 명이 참가하나요?");
+    const wordInput = document.querySelector(".word-input");
+    const wordSubmitButton = document.querySelector(".word-submit");
+    const currentOrder = document.querySelector("#order");
+    const presentedWord = document.querySelector("#presented-word");
+    console.log("시작");
+    let word;
+    let newWord;
+
+    if (!playerNumber) {
+      alert("게임이 종료되었습니다.");
+    } else {
+      wordInput.focus();
+      wordInput.addEventListener("input", ({ currentTarget }) => {
+        newWord = currentTarget.value;
+      });
+
+      wordSubmitButton.addEventListener("click", () => {
+        if (!word || word[word.length - 1] === newWord[0]) {
+          if (newWord.length === 3) {
+            word = newWord;
+            presentedWord.textContent = word;
+            console.log("정답");
+            let currentOrderNum = Number(currentOrder.textContent);
+            if (currentOrderNum + 1 > playerNumber) {
+              currentOrder.textContent = 1;
+            } else {
+              currentOrder.textContent = currentOrderNum + 1;
+            }
+          } else {
+            alert("틀렸습니다. 제시어는 3글자로 맞춰주세요.");
+          }
+        } else {
+          alert("틀렸습니다.");
+        }
+        wordInput.value = "";
+        wordInput.focus();
+      });
+    }
+  </script>
+</html>
