@@ -35,5 +35,24 @@
 
     const winBalls = shuffle.slice(0, 6).sort((a, b) => a - b);
     const bonus = shuffle[6];
+
+    const $result = document.getElementById("result");
+    const $bonus = document.querySelector("#bonus");
+
+    function showRandomBall(number, $target) {
+      const $ball = document.createElement("div");
+      $ball.className = "ball";
+      $ball.textContent = number;
+      $target.appendChild($ball);
+    }
+
+    for (let i = 0; i < 6; i++) {
+      setTimeout(() => {
+        showRandomBall(winBalls[i], $result);
+      }, 1000 * (i + 1));
+    }
+    setTimeout(() => {
+      showRandomBall(bonus, $bonus);
+    }, 7000);
   </script>
 </body>
