@@ -3,8 +3,7 @@ const score = document.querySelector('#score') as HTMLDivElement;
 const scissor = document.querySelector('#scissor') as HTMLButtonElement;
 const rock = document.querySelector('#rock') as HTMLButtonElement;
 const paper = document.querySelector('#paper') as HTMLButtonElement;
-const IMG_URL =
-  'https://github.com/Jinnie-kim/toyPractice/blob/main/rockSicssorPaper/src/rsp.png?raw=true';
+const IMG_URL = './src/rsp.png';
 
 const rspX = {
   scissor: '0',
