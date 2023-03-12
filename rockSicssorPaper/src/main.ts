@@ -53,6 +53,7 @@ let computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // setTime
 let positionClickable = true; // flag 변수
 let userChoiceHand = '';
 let scoreCount = 0;
+let resultMessage = '';
 
 const scoreTable: ScoreTable = {
   scissor: 1,
@@ -69,18 +70,20 @@ function userClickPosition() {
     const computerChoiceToNum = scoreTable[computerChoice as keyof ScoreTable];
     const diffUserAndComputer = userChoiceToNum - computerChoiceToNum;
 
+    // 2, -1은 승리조건, -2, 1은 패배조건
     if (diffUserAndComputer === 0) {
+      resultMessage = '비겼습니다';
       console.log('무승부');
-    } else if (diffUserAndComputer === -2 || diffUserAndComputer === 1) {
+    } else if ([-2, 1].includes(diffUserAndComputer)) {
       console.log('패');
+      resultMessage = '졌습니다';
       scoreCount--;
-      score.innerText = scoreCount.toString();
-    } else if (diffUserAndComputer === 2 || diffUserAndComputer === -1) {
+    } else if ([-1, 2].includes(diffUserAndComputer)) {
       console.log('승');
+      resultMessage = '이겼습니다';
       scoreCount++;
-      score.innerText = scoreCount.toString();
     }
-
+    score.textContent = `${resultMessage}, 총 점수는 ${scoreCount}`;
     setTimeout(() => {
       positionClickable = true;
       // interval 멈춘 후 1초 뒤에 다시 컴퓨터의 손 포지션 변경
