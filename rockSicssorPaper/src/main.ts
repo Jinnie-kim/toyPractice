@@ -11,6 +11,12 @@ interface rspXCoord {
   paper: string;
 }
 
+interface ScoreTable {
+  scissor: number;
+  rock: number;
+  paper: number;
+}
+
 const rspX: rspXCoord = {
   scissor: '0',
   rock: '-220px',
@@ -47,43 +53,34 @@ let computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // setTime
 let positionClickable = true; // flag 변수
 let userChoiceHand = '';
 let scoreCount = 0;
+
+const scoreTable: ScoreTable = {
+  scissor: 1,
+  rock: 0,
+  paper: -1,
+};
+
 function userClickPosition() {
   if (positionClickable) {
     clearInterval(computerChoiceTimeInterval);
     positionClickable = false;
     // 점수 계산 및 화면에 표시
-    console.log(computerChoice === userChoiceHand);
-    if (computerChoice === 'scissor' && userChoiceHand === 'scissor') {
-      console.log('비겼습니다.');
-    } else if (computerChoice === 'scissor' && userChoiceHand === 'rock') {
-      console.log('이겼습니다.');
-      scoreCount++;
-      score.innerText = scoreCount.toString();
-    } else if (computerChoice === 'scissor' && userChoiceHand === 'paper') {
-      console.log('졌습니다.');
+    const userChoiceToNum = scoreTable[userChoiceHand as keyof ScoreTable];
+    const computerChoiceToNum = scoreTable[computerChoice as keyof ScoreTable];
+    const diffUserAndComputer = userChoiceToNum - computerChoiceToNum;
+
+    if (diffUserAndComputer === 0) {
+      console.log('무승부');
+    } else if (diffUserAndComputer === -2 || diffUserAndComputer === 1) {
+      console.log('패');
       scoreCount--;
       score.innerText = scoreCount.toString();
-    } else if (computerChoice === 'rock' && userChoiceHand === 'rock') {
-      console.log('비겼습니다.');
-    } else if (computerChoice === 'rock' && userChoiceHand === 'scissor') {
-      console.log('졌습니다.');
-      scoreCount--;
-      score.innerText = scoreCount.toString();
-    } else if (computerChoice === 'rock' && userChoiceHand === 'paper') {
-      console.log('이겼습니다.');
+    } else if (diffUserAndComputer === 2 || diffUserAndComputer === -1) {
+      console.log('승');
       scoreCount++;
-      score.innerText = scoreCount.toString();
-    } else if (computerChoice === 'paper' && userChoiceHand === 'paper') {
-      console.log('비겼습니다.');
-    } else if (computerChoice === 'paper' && userChoiceHand === 'scissor') {
-      console.log('이겼습니다.');
-      scoreCount++;
-      score.innerText = scoreCount.toString();
-    } else if (computerChoice === 'paper' && userChoiceHand === 'rock') {
-      console.log('졌습니다.');
-      scoreCount--;
       score.innerText = scoreCount.toString();
     }
+
     setTimeout(() => {
       positionClickable = true;
       // interval 멈춘 후 1초 뒤에 다시 컴퓨터의 손 포지션 변경
