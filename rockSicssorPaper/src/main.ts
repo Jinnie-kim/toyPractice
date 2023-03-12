@@ -1,5 +1,5 @@
 const computer = document.querySelector('#computer') as HTMLDivElement;
-const score = document.querySelector('#score') as HTMLDivElement;
+let score = document.querySelector('#score') as HTMLDivElement;
 const scissor = document.querySelector('#scissor') as HTMLButtonElement;
 const rock = document.querySelector('#rock') as HTMLButtonElement;
 const paper = document.querySelector('#paper') as HTMLButtonElement;
@@ -45,11 +45,45 @@ let computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // setTime
 // click버튼 5번 호출, 1번, 2번, 3번, 4번, 5번 인터벌 id가 생성되고 마지막 5번 인터벌 id가 저장된다.
 // 그 다음 버튼을 클릭하면 5번 인터벌만 취소된다.
 let positionClickable = true; // flag 변수
+let userChoiceHand = '';
+let scoreCount = 0;
 function userClickPosition() {
   if (positionClickable) {
     clearInterval(computerChoiceTimeInterval);
     positionClickable = false;
     // 점수 계산 및 화면에 표시
+    console.log(computerChoice === userChoiceHand);
+    if (computerChoice === 'scissor' && userChoiceHand === 'scissor') {
+      console.log('비겼습니다.');
+    } else if (computerChoice === 'scissor' && userChoiceHand === 'rock') {
+      console.log('이겼습니다.');
+      scoreCount++;
+      score.innerText = scoreCount.toString();
+    } else if (computerChoice === 'scissor' && userChoiceHand === 'paper') {
+      console.log('졌습니다.');
+      scoreCount--;
+      score.innerText = scoreCount.toString();
+    } else if (computerChoice === 'rock' && userChoiceHand === 'rock') {
+      console.log('비겼습니다.');
+    } else if (computerChoice === 'rock' && userChoiceHand === 'scissor') {
+      console.log('졌습니다.');
+      scoreCount--;
+      score.innerText = scoreCount.toString();
+    } else if (computerChoice === 'rock' && userChoiceHand === 'paper') {
+      console.log('이겼습니다.');
+      scoreCount++;
+      score.innerText = scoreCount.toString();
+    } else if (computerChoice === 'paper' && userChoiceHand === 'paper') {
+      console.log('비겼습니다.');
+    } else if (computerChoice === 'paper' && userChoiceHand === 'scissor') {
+      console.log('이겼습니다.');
+      scoreCount++;
+      score.innerText = scoreCount.toString();
+    } else if (computerChoice === 'paper' && userChoiceHand === 'rock') {
+      console.log('졌습니다.');
+      scoreCount--;
+      score.innerText = scoreCount.toString();
+    }
     setTimeout(() => {
       positionClickable = true;
       // interval 멈춘 후 1초 뒤에 다시 컴퓨터의 손 포지션 변경
@@ -58,6 +92,15 @@ function userClickPosition() {
   }
 }
 
-scissor.addEventListener('click', userClickPosition);
-rock.addEventListener('click', userClickPosition);
-paper.addEventListener('click', userClickPosition);
+scissor.addEventListener('click', (e: Event) => {
+  userChoiceHand = (e.currentTarget as HTMLButtonElement).id;
+  userClickPosition();
+});
+rock.addEventListener('click', (e: Event) => {
+  userChoiceHand = (e.currentTarget as HTMLButtonElement).id;
+  userClickPosition();
+});
+paper.addEventListener('click', (e: Event) => {
+  userChoiceHand = (e.currentTarget as HTMLButtonElement).id;
+  userClickPosition();
+});
