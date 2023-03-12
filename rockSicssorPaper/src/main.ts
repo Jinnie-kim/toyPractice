@@ -51,9 +51,9 @@ let computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // setTime
 // click버튼 5번 호출, 1번, 2번, 3번, 4번, 5번 인터벌 id가 생성되고 마지막 5번 인터벌 id가 저장된다.
 // 그 다음 버튼을 클릭하면 5번 인터벌만 취소된다.
 let positionClickable = true; // flag 변수
-let userChoiceHand = '';
-let scoreCount = 0;
-let resultMessage = '';
+let userChoiceHand: string = '';
+let scoreCount: number = 0;
+let resultMessage: string = '';
 
 const scoreTable: ScoreTable = {
   scissor: 1,
