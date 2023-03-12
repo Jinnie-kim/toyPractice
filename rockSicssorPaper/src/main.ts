@@ -40,4 +40,17 @@ function changeComputerHand() {
   computer.style.backgroundSize = 'auto 200px';
 }
 
-setInterval(changeComputerHand, 50); // setTimeout을 이용하여 재귀함수로 구현할 수도 있다.
+let computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // setTimeout을 이용하여 재귀함수로 구현할 수도 있다.
+
+function userClickPosition() {
+  clearInterval(computerChoiceTimeInterval);
+  // 점수 계산 및 화면에 표시
+  setTimeout(() => {
+    // interval 멈춘 후 1초 뒤에 다시 컴퓨터의 손 포지션 변경
+    computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // 타이머마다 id가 달라지기 때문에 매번 변수에 새로 저장해줘야한다.
+  }, 1000);
+}
+
+scissor.addEventListener('click', userClickPosition);
+rock.addEventListener('click', userClickPosition);
+paper.addEventListener('click', userClickPosition);
