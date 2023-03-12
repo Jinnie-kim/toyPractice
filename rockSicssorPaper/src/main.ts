@@ -55,6 +55,10 @@ let userChoiceHand: string = '';
 let scoreCount: number = 0;
 let resultMessage: string = '';
 
+let gameCount: number = 0;
+let computerScore: number = 0;
+let userScore: number = 0;
+
 const scoreTable: ScoreTable = {
   scissor: 1,
   rock: 0,
@@ -73,17 +77,39 @@ function userClickPosition() {
     // 2, -1은 승리조건, -2, 1은 패배조건
     if (diffUserAndComputer === 0) {
       resultMessage = '비겼습니다';
-      console.log('무승부');
     } else if ([-2, 1].includes(diffUserAndComputer)) {
-      console.log('패');
       resultMessage = '졌습니다';
       scoreCount--;
+      computerScore++;
     } else if ([-1, 2].includes(diffUserAndComputer)) {
-      console.log('승');
       resultMessage = '이겼습니다';
       scoreCount++;
+      userScore++;
     }
-    score.textContent = `${resultMessage}, 총 점수는 ${scoreCount}`;
+    if (resultMessage !== '비겼습니다') gameCount++;
+    if (gameCount === 5) {
+      if (computerScore > userScore) {
+        console.log(computerScore);
+        console.log(userScore);
+        resultMessage = '게임이 끝났습니다. 컴퓨터가 이겼습니다.';
+      } else if (computerScore < userScore) {
+        console.log(computerScore);
+        console.log(userScore);
+        resultMessage = '게임이 끝났습니다. 유저가 이겼습니다.';
+      } else if (computerScore === userScore) {
+        console.log(computerScore);
+        console.log(userScore);
+        resultMessage = '게임이 끝났습니다. 비겼습니다.';
+      }
+      score.textContent = `${resultMessage}`;
+      return;
+    } else if (gameCount < 5) {
+      console.log('computer score', computerScore);
+      console.log('userScore', userScore);
+      score.textContent = `${resultMessage}, 총 점수는 ${scoreCount}`;
+    }
+    console.log('gameCount', gameCount);
+
     setTimeout(() => {
       positionClickable = true;
       // interval 멈춘 후 1초 뒤에 다시 컴퓨터의 손 포지션 변경
