@@ -44,14 +44,18 @@ let computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // setTime
 
 // click버튼 5번 호출, 1번, 2번, 3번, 4번, 5번 인터벌 id가 생성되고 마지막 5번 인터벌 id가 저장된다.
 // 그 다음 버튼을 클릭하면 5번 인터벌만 취소된다.
+let positionClickable = true; // flag 변수
 function userClickPosition() {
-  clearInterval(computerChoiceTimeInterval);
-  // 점수 계산 및 화면에 표시
-  setTimeout(() => {
-    clearInterval(computerChoiceTimeInterval); // 혹시 직전 인터벌id가 존재하면 한 번더 제거를 한다.
-    // interval 멈춘 후 1초 뒤에 다시 컴퓨터의 손 포지션 변경
-    computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // 타이머마다 id가 달라지기 때문에 매번 변수에 새로 저장해줘야한다.
-  }, 1000);
+  if (positionClickable) {
+    clearInterval(computerChoiceTimeInterval);
+    positionClickable = false;
+    // 점수 계산 및 화면에 표시
+    setTimeout(() => {
+      positionClickable = true;
+      // interval 멈춘 후 1초 뒤에 다시 컴퓨터의 손 포지션 변경
+      computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // 타이머마다 id가 달라지기 때문에 매번 변수에 새로 저장해줘야한다.
+    }, 1000);
+  }
 }
 
 scissor.addEventListener('click', userClickPosition);
