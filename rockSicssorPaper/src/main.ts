@@ -104,6 +104,18 @@ function userClickPosition() {
       score.textContent = `${resultMessage}`;
       return;
     } else if (gameCount < 5) {
+      if (userScore === 3 || computerScore === 3) {
+        if (userScore === 3) {
+          resultMessage = '게임이 끝났습니다. 유저가 이겼습니다.';
+          score.textContent = `${resultMessage}`;
+          return;
+        }
+        if (computerScore === 3) {
+          resultMessage = '게임이 끝났습니다. 컴퓨터가 이겼습니다.';
+          score.textContent = `${resultMessage}`;
+          return;
+        }
+      }
       console.log('computer score', computerScore);
       console.log('userScore', userScore);
       score.textContent = `${resultMessage}, 총 점수는 ${scoreCount}`;
