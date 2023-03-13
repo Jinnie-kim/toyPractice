@@ -2,6 +2,9 @@ import './style.css';
 
 const screen = document.querySelector('#screen') as HTMLDivElement;
 const result = document.querySelector('#result') as HTMLDivElement;
+const reactionArray = document.querySelector(
+  '#earliest-reaction'
+) as HTMLDivElement;
 
 interface ScreenStatus {
   waiting: string;
@@ -54,14 +57,16 @@ screen.addEventListener('click', (event: Event) => {
     // 사용자가 클릭한 후 끝 시간 빼기
     endTime = new Date();
     // 시간 차이 저장하기
-    timeDiffRecords = (endTime.getTime() - startTime.getTime()) / 1000;
+    timeDiffRecords = endTime.getTime() - startTime.getTime();
     recordsArray.push(timeDiffRecords);
 
     let timeDiffRecordsAverage = recordsArray.reduce(
       (a, b, _, array) => (a + b) / array.length
     );
-    result.textContent = `현재: ${timeDiffRecords}s, 평균 기록: ${timeDiffRecordsAverage}`;
 
+    result.textContent = `현재: ${timeDiffRecords}s, 평균 기록: ${timeDiffRecordsAverage}`;
+    recordsArray.sort((a, b) => a - b);
+    reactionArray.textContent = recordsArray.slice(0, 5).join(' ');
     // 초기화를 안해줘도 되지만 혹시나 버그가 날 상황을 방지하기위해 초기화 처리를 해준다.
     // startTime = null;
     // endTime = null;
