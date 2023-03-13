@@ -21,6 +21,7 @@ let screenMessage: string;
 let startTime: Date;
 let endTime: Date;
 let timeDiffRecords: number;
+let timeoutId: number;
 
 const recordsArray: number[] = [];
 
@@ -32,7 +33,7 @@ screen.addEventListener('click', (event: Event) => {
     (event.currentTarget as HTMLDivElement).className = screenStatus.ready;
 
     // 파란 화면을 클릭하고 빨간 화면으로 전환된 후 바로 타이머가 실행되어야 한다.
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       if (screen.className === screenStatus.ready) {
         // 첫 시간 재기 (시작 시간)
         startTime = new Date();
@@ -44,8 +45,9 @@ screen.addEventListener('click', (event: Event) => {
   } else if (
     (event.currentTarget as HTMLDivElement).className === screenStatus.ready
   ) {
-    screenMessage = '클릭하세요!';
-    (event.currentTarget as HTMLDivElement).className = screenStatus.now;
+    clearTimeout(timeoutId);
+    screenMessage = '아직 초록색 아니자나여';
+    (event.currentTarget as HTMLDivElement).className = screenStatus.waiting;
   } else if (
     (event.currentTarget as HTMLDivElement).classList.contains(screenStatus.now)
   ) {
