@@ -52,7 +52,7 @@ let userChoiceHand: string = '';
 let scoreCount: number = 0;
 let resultMessage: string = '';
 
-let gameCount: number = 0;
+// let gameCount: number = 0;
 let computerScore: number = 0;
 let userScore: number = 0;
 
@@ -76,54 +76,29 @@ function userClickPosition() {
       resultMessage = '비겼습니다';
     } else if ([-2, 1].includes(diffUserAndComputer)) {
       resultMessage = '졌습니다';
-      scoreCount--;
+      // scoreCount--;
       computerScore++;
     } else if ([-1, 2].includes(diffUserAndComputer)) {
       resultMessage = '이겼습니다';
-      scoreCount++;
+      // scoreCount++;
       userScore++;
     }
-    if (resultMessage !== '비겼습니다') gameCount++;
-    if (gameCount === 5) {
-      if (computerScore > userScore) {
-        console.log(computerScore);
-        console.log(userScore);
-        resultMessage = '게임이 끝났습니다. 컴퓨터가 이겼습니다.';
-      } else if (computerScore < userScore) {
-        console.log(computerScore);
-        console.log(userScore);
-        resultMessage = '게임이 끝났습니다. 유저가 이겼습니다.';
-      } else if (computerScore === userScore) {
-        console.log(computerScore);
-        console.log(userScore);
-        resultMessage = '게임이 끝났습니다. 비겼습니다.';
-      }
-      score.textContent = `${resultMessage}`;
-      return;
-    } else if (gameCount < 5) {
-      if (userScore === 3 || computerScore === 3) {
-        if (userScore === 3) {
-          resultMessage = '게임이 끝났습니다. 유저가 이겼습니다.';
-          score.textContent = `${resultMessage}`;
-          return;
-        }
-        if (computerScore === 3) {
-          resultMessage = '게임이 끝났습니다. 컴퓨터가 이겼습니다.';
-          score.textContent = `${resultMessage}`;
-          return;
-        }
-      }
-      console.log('computer score', computerScore);
-      console.log('userScore', userScore);
-      score.textContent = `${resultMessage}, 총 점수는 ${scoreCount}`;
-    }
-    console.log('gameCount', gameCount);
 
-    setTimeout(() => {
-      positionClickable = true;
-      // interval 멈춘 후 1초 뒤에 다시 컴퓨터의 손 포지션 변경
-      computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // 타이머마다 id가 달라지기 때문에 매번 변수에 새로 저장해줘야한다.
-    }, 1000);
+    // 혹시나 버그가 나서 3점 이상이 되는 경우가 있을 수 있다는 걸 고려
+    if (userScore >= 3) {
+      resultMessage = `게임이 끝났습니다. 유저가 이겼습니다. User ${userScore} : Computer ${computerScore}`;
+      score.textContent = `${resultMessage}`;
+    } else if (computerScore >= 3) {
+      resultMessage = `게임이 끝났습니다. 컴퓨터가 이겼습니다. User ${userScore} : Computer ${computerScore}`;
+      score.textContent = `${resultMessage}`;
+    } else {
+      score.textContent = `${resultMessage}, User ${userScore} : Computer ${computerScore}`;
+      setTimeout(() => {
+        positionClickable = true;
+        // interval 멈춘 후 1초 뒤에 다시 컴퓨터의 손 포지션 변경
+        computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // 타이머마다 id가 달라지기 때문에 매번 변수에 새로 저장해줘야한다.
+      }, 1000);
+    }
   }
 }
 
