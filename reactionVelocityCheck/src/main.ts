@@ -2,10 +2,6 @@ import './style.css';
 
 const screen = document.querySelector('#screen') as HTMLDivElement;
 const result = document.querySelector('#result') as HTMLDivElement;
-const reactionArray = document.querySelector(
-  '#earliest-reaction'
-) as HTMLDivElement;
-
 interface ScreenStatus {
   waiting: string;
   ready: string;
@@ -65,8 +61,10 @@ screen.addEventListener('click', (event: Event) => {
     );
 
     result.textContent = `현재: ${timeDiffRecords}s, 평균 기록: ${timeDiffRecordsAverage}`;
-    recordsArray.sort((a, b) => a - b);
-    reactionArray.textContent = recordsArray.slice(0, 5).join(' ');
+    const topFiveRecords = recordsArray.sort((a, b) => a - b).slice(0, 5);
+    topFiveRecords.forEach((top, index) => {
+      result.append(document.createElement('br'), `${index + 1}위: ${top}ms`);
+    });
     // 초기화를 안해줘도 되지만 혹시나 버그가 날 상황을 방지하기위해 초기화 처리를 해준다.
     // startTime = null;
     // endTime = null;
