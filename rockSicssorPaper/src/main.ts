@@ -23,6 +23,12 @@ const rspX: rspXCoord = {
   paper: '-440px',
 };
 
+const scoreTable: ScoreTable = {
+  scissor: 1,
+  rock: 0,
+  paper: -1,
+};
+
 let computerChoice = 'scissor';
 
 function changeComputerHand() {
@@ -48,19 +54,12 @@ let computerChoiceTimeInterval = setInterval(changeComputerHand, 50); // setTime
 // click버튼 5번 호출, 1번, 2번, 3번, 4번, 5번 인터벌 id가 생성되고 마지막 5번 인터벌 id가 저장된다.
 // 그 다음 버튼을 클릭하면 5번 인터벌만 취소된다.
 let positionClickable = true; // flag 변수
+
 let userChoiceHand: string = '';
-let scoreCount: number = 0;
 let resultMessage: string = '';
 
-// let gameCount: number = 0;
 let computerScore: number = 0;
 let userScore: number = 0;
-
-const scoreTable: ScoreTable = {
-  scissor: 1,
-  rock: 0,
-  paper: -1,
-};
 
 function userClickPosition() {
   if (positionClickable) {
@@ -76,11 +75,9 @@ function userClickPosition() {
       resultMessage = '비겼습니다';
     } else if ([-2, 1].includes(diffUserAndComputer)) {
       resultMessage = '졌습니다';
-      // scoreCount--;
       computerScore++;
     } else if ([-1, 2].includes(diffUserAndComputer)) {
       resultMessage = '이겼습니다';
-      // scoreCount++;
       userScore++;
     }
 
