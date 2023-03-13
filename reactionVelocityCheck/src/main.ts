@@ -20,6 +20,9 @@ let screenMessage: string;
 
 let startTime: Date;
 let endTime: Date;
+let timeDiffRecords: number;
+
+const recordsArray: number[] = [];
 
 screen.addEventListener('click', (event: Event) => {
   if (
@@ -49,7 +52,17 @@ screen.addEventListener('click', (event: Event) => {
     // 사용자가 클릭한 후 끝 시간 빼기
     endTime = new Date();
     // 시간 차이 저장하기
-    result.textContent = `${(endTime.getTime() - startTime.getTime()) / 1000}s`;
+    timeDiffRecords = (endTime.getTime() - startTime.getTime()) / 1000;
+    recordsArray.push(timeDiffRecords);
+
+    let timeDiffRecordsAverage = recordsArray.reduce(
+      (a, b, _, array) => (a + b) / array.length
+    );
+    result.textContent = `현재: ${timeDiffRecords}s, 평균 기록: ${timeDiffRecordsAverage}`;
+
+    // 초기화를 안해줘도 되지만 혹시나 버그가 날 상황을 방지하기위해 초기화 처리를 해준다.
+    // startTime = null;
+    // endTime = null;
     screenMessage = '클릭해서 시작하세요';
     (event.currentTarget as HTMLDivElement).className = screenStatus.waiting;
   }
