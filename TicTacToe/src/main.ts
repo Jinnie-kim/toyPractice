@@ -57,20 +57,17 @@ function checkWinner(target: EventTarget) {
   return hasWinner;
 }
 
-function checkFilledBlock(event: Event) {
-  // 칸에 글자가 있나?
-  if ((event.target as HTMLTableCellElement).textContent) {
-    alert('이미 선택된 칸입니다.');
-    return;
-  }
-  (event.target as HTMLTableCellElement).textContent = turn;
+function checkWinnerAndDraw(target: EventTarget) {
+  const hasWinner = checkWinner(target);
 
-  // 승부 판별하기
-  if (checkWinner(event.target as HTMLTableCellElement)) {
+  // 승자가 있으면
+  if (hasWinner) {
     $result.textContent = `${turn}님이 승리!`;
     $table.removeEventListener('click', checkFilledBlock);
     return;
   }
+
+  // 승자가 없으면
   // 무승부 검사 (2차원 배열을 1차원 배열로 변경)
   const draw = rows.flat().every((cell) => cell.textContent);
 
@@ -86,8 +83,33 @@ function checkFilledBlock(event: Event) {
     $result.textContent = '무승부';
     return;
   }
+
   // 차례 넘기기
   turn = turn === '😼' ? '🐶' : '😼';
+}
+
+function checkFilledBlock(event: Event) {
+  // 칸에 글자가 있나?
+  if ((event.target as HTMLTableCellElement).textContent) {
+    alert('이미 선택된 칸입니다.');
+    return;
+  }
+  (event.target as HTMLTableCellElement).textContent = turn;
+
+  checkWinnerAndDraw(event.target as HTMLTableCellElement);
+
+  if (turn === '🐶') {
+    // 컴퓨터의 턴
+    const emptyCells = rows.flat().filter((cell) => !cell.textContent);
+    const randomCell =
+      emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+    setTimeout(() => {
+      randomCell.textContent = '🐶';
+    }, 1000);
+
+    checkWinnerAndDraw(randomCell);
+  }
 }
 
 for (let i = 0; i < 3; i++) {
