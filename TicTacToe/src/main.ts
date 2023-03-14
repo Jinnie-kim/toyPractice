@@ -1,5 +1,7 @@
 import './style.css';
 
+const { body, createElement } = document as Document;
+
 const $table = document.createElement('table') as HTMLTableElement;
 const $result = document.createElement('div') as HTMLDivElement;
 
@@ -33,5 +35,5 @@ for (let i = 0; i < 3; i++) {
   $table.append($tr);
 }
 
-document.body.append($table);
-document.body.append($result);
+body.append($table);
+body.append($result);
