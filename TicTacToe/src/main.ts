@@ -88,7 +88,11 @@ function checkWinnerAndDraw(target: EventTarget) {
   turn = turn === '😼' ? '🐶' : '😼';
 }
 
+let clickable = true;
+
 function checkFilledBlock(event: Event) {
+  if (!clickable) return;
+
   // 칸에 글자가 있나?
   if ((event.target as HTMLTableCellElement).textContent) {
     alert('이미 선택된 칸입니다.');
@@ -100,14 +104,14 @@ function checkFilledBlock(event: Event) {
 
   if (turn === '🐶') {
     // 컴퓨터의 턴
+    const emptyCells = rows.flat().filter((cell) => !cell.textContent);
+    const randomCell =
+      emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    clickable = false; // setTimeout이 돌고있는 동안은 click을 못하도록 막기
     setTimeout(() => {
-      const emptyCells = rows.flat().filter((cell) => !cell.textContent);
-      const randomCell =
-        emptyCells[Math.floor(Math.random() * emptyCells.length)];
-
       randomCell.textContent = '🐶';
-
       checkWinnerAndDraw(randomCell);
+      clickable = true; // 컴퓨터의 턴이 끝나면 다시 클릭할 수 있도록 한다.
     }, 1000);
   }
 }
