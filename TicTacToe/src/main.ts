@@ -1,8 +1,13 @@
 import './style.css';
 
 const $table = document.createElement('table') as HTMLTableElement;
+const $result = document.createElement('div') as HTMLDivElement;
 
 let turn = '😼';
+const data = [];
+for (let i = 0; i < 3; i++) {
+  data.push([]);
+}
 
 for (let i = 0; i < 3; i++) {
   const $tr = document.createElement('tr') as HTMLTableRowElement;
@@ -29,3 +34,4 @@ for (let i = 0; i < 3; i++) {
 }
 
 document.body.append($table);
+document.body.append($result);
