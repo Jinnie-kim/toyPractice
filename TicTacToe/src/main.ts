@@ -8,9 +8,6 @@ const $result = document.createElement('div') as HTMLDivElement;
 let turn = '😼';
 const rows: HTMLTableCellElement[][] = [];
 
-let rowIndex: number;
-let cellIndex: number;
-
 // [
 //  [td, td, td],
 //  [td, td, td],
@@ -18,34 +15,27 @@ let cellIndex: number;
 // ]
 
 function checkWinner(target: EventTarget) {
-  rows.forEach((row, ri) => {
-    row.forEach((cell, ci) => {
-      if (cell === target) {
-        rowIndex = ri;
-        cellIndex = ci;
-      }
-    });
-  });
+  const rowBoxIndex = (
+    (target as HTMLTableCellElement).parentNode as HTMLTableRowElement
+  ).rowIndex;
+  const cellBoxIndex = (target as HTMLTableCellElement).cellIndex;
+
   // 세칸 모두 채워졌는가?
   let hasWinner: boolean = false;
 
-  console.log(rows[rowIndex][0]);
-  console.log(rows[rowIndex][1]);
-  console.log(rows[rowIndex][2]);
-
   // 가로줄 검사
   if (
-    rows[rowIndex][0].textContent === turn &&
-    rows[rowIndex][1].textContent === turn &&
-    rows[rowIndex][2].textContent === turn
+    rows[rowBoxIndex][0].textContent === turn &&
+    rows[rowBoxIndex][1].textContent === turn &&
+    rows[rowBoxIndex][2].textContent === turn
   ) {
     hasWinner = true;
   }
   // 세로줄 검사
   if (
-    rows[0][cellIndex].textContent === turn &&
-    rows[1][cellIndex].textContent === turn &&
-    rows[2][cellIndex].textContent === turn
+    rows[0][cellBoxIndex].textContent === turn &&
+    rows[1][cellBoxIndex].textContent === turn &&
+    rows[2][cellBoxIndex].textContent === turn
   ) {
     hasWinner = true;
   }
@@ -81,15 +71,17 @@ function checkFilledBlock(event: Event) {
     $table.removeEventListener('click', checkFilledBlock);
     return;
   }
-  // 무승부 검사
-  let draw = true;
-  rows.forEach((row) => {
-    row.forEach((cell) => {
-      if (!cell.textContent) {
-        draw = false;
-      }
-    });
-  });
+  // 무승부 검사 (2차원 배열을 1차원 배열로 변경)
+  const draw = rows.flat().every((cell) => cell.textContent);
+
+  // rows.forEach((row) => {
+  //   row.forEach((cell) => {
+  //     if (!cell.textContent) {
+  //       draw = false;
+  //     }
+  //   });
+  // });
+
   if (draw) {
     $result.textContent = '무승부';
     return;
