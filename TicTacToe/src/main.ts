@@ -100,15 +100,15 @@ function checkFilledBlock(event: Event) {
 
   if (turn === '🐶') {
     // 컴퓨터의 턴
-    const emptyCells = rows.flat().filter((cell) => !cell.textContent);
-    const randomCell =
-      emptyCells[Math.floor(Math.random() * emptyCells.length)];
-
     setTimeout(() => {
-      randomCell.textContent = '🐶';
-    }, 1000);
+      const emptyCells = rows.flat().filter((cell) => !cell.textContent);
+      const randomCell =
+        emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
-    checkWinnerAndDraw(randomCell);
+      randomCell.textContent = '🐶';
+
+      checkWinnerAndDraw(randomCell);
+    }, 1000);
   }
 }
 
