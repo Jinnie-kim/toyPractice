@@ -100,6 +100,15 @@ class Game {
     const input = (event.target as HTMLFormElement)['battle-input'].value;
     if (input === '1') {
       // 공격
+      const { hero, monster } = this;
+      if (hero === null || monster === null) return;
+      hero.attack(monster);
+      monster.attack!(hero);
+      this.showMessage(
+        `${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`
+      );
+      this.updateHeroStat();
+      this.updateMonsterStat();
     } else if (input === '2') {
       // 회복
     } else if (input === '3') {
@@ -163,10 +172,10 @@ class Hero {
     // this.game.updateHeroStat(); Hero안에서 게임 클래스에 접근해서 업데이트를 해도 된다.
   }
 
-  attack(target) {
+  attack(target: MonsterStat) {
     target.hp -= this.att;
   }
-  heal(monster) {
+  heal(monster: MonsterStat) {
     this.hp += 20;
     this.hp -= monster.att;
   }
@@ -187,7 +196,7 @@ class Monster {
     this.xp = xp;
     this.att = att;
   }
-  attack(target) {
+  attack(target: HeroStat) {
     target.hp -= this.att;
   }
 }
