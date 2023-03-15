@@ -11,9 +11,9 @@ const $heroHp = document.querySelector('#hero-hp') as HTMLSpanElement;
 const $heroXp = document.querySelector('#hero-xp') as HTMLSpanElement;
 const $heroAtt = document.querySelector('#hero-att') as HTMLSpanElement;
 // 몬스터 stat
-const $monsterName = document.querySelector('#monster-name');
-const $monsterHp = document.querySelector('#monster-hp');
-const $monsterAtt = document.querySelector('#monster-att');
+const $monsterName = document.querySelector('#monster-name') as HTMLSpanElement;
+const $monsterHp = document.querySelector('#monster-hp') as HTMLSpanElement;
+const $monsterAtt = document.querySelector('#monster-att') as HTMLSpanElement;
 // 게임 상황 메시지
 const $message = document.querySelector('#message');
 
@@ -26,7 +26,7 @@ const hero: HeroStat = {
   att: 10,
 };
 
-let monster = null;
+let monster: MonsterStat | null = null;
 
 const monsterList: MonsterStat[] = [
   {
@@ -60,4 +60,25 @@ $startScreen.addEventListener('submit', (event: Event) => {
   $heroXp.textContent = `XP: ${hero.xp}/${15 * hero.lev}`;
   $heroAtt.textContent = `ATT: ${hero.att}`;
   hero.name = name;
+});
+
+$gameMenu.addEventListener('submit', (event: Event) => {
+  event.preventDefault();
+  const input = (event.target as HTMLFormElement)['menu-input'].value;
+  if (input === '1') {
+    $gameMenu.style.display = 'none';
+    $battleMenu.style.display = 'block';
+    monster = JSON.parse(
+      JSON.stringify(
+        monsterList[Math.floor(Math.random() * monsterList.length)]
+      )
+    );
+    if (monster === null) return;
+    monster.maxHp = monster.hp;
+    $monsterName.textContent = monster.name;
+    $monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
+    $monsterAtt.textContent = `ATT: ${monster.att}`;
+  } else if (input === 2) {
+  } else if (input === 3) {
+  }
 });
