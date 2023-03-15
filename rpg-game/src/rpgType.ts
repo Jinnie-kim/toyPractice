@@ -7,6 +7,7 @@ export interface HeroStat {
   att: number;
   attack: (monster: MonsterStat) => void;
   heal: (monster: MonsterStat) => void;
+  getXp: (monsterxp: number) => void;
 }
 
 export interface MonsterStat {
