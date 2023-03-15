@@ -24,6 +24,14 @@ const hero: HeroStat = {
   hp: 100,
   xp: 0,
   att: 10,
+  attack(monster) {
+    monster.hp -= this.att;
+    this.hp -= monster.att;
+  },
+  heal(monster) {
+    this.hp += 20;
+    this.hp -= monster.att;
+  },
 };
 
 let monster: MonsterStat | null = null;
@@ -66,6 +74,7 @@ $gameMenu.addEventListener('submit', (event: Event) => {
   event.preventDefault();
   const input = (event.target as HTMLFormElement)['menu-input'].value;
   if (input === '1') {
+    // 모험
     $gameMenu.style.display = 'none';
     $battleMenu.style.display = 'block';
     monster = JSON.parse(
@@ -79,7 +88,9 @@ $gameMenu.addEventListener('submit', (event: Event) => {
     $monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
     $monsterAtt.textContent = `ATT: ${monster.att}`;
   } else if (input === 2) {
+    // 휴식
   } else if (input === 3) {
+    // 종료
   }
 });
 
