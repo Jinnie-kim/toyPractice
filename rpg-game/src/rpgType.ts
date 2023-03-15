@@ -15,5 +15,5 @@ export interface MonsterStat {
   att: number;
   xp: number;
   maxHp?: number;
-  attack: (hero: HeroStat) => void;
+  attack?: (hero: HeroStat) => void;
 }
