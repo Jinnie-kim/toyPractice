@@ -129,9 +129,18 @@ class Game {
       this.updateMonsterStat();
     } else if (input === '2') {
       // 회복
+      const { hero, monster } = this;
+      if (hero === null || monster === null) return;
+      hero.hp = Math.min(hero.maxHp, hero.hp + 20);
+      monster.attack!(hero);
+      this.showMessage('체력을 조금 회복했다!');
+      this.updateHeroStat();
     } else if (input === '3') {
       // 도망
       this.changeScreen('game');
+      this.showMessage('부리나케 도망쳤다!');
+      this.monster = null;
+      this.updateMonsterStat();
     }
   };
 
