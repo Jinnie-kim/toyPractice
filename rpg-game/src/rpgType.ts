@@ -12,4 +12,5 @@ export interface MonsterStat {
   hp: number;
   att: number;
   xp: number;
+  maxHp?: number;
 }
