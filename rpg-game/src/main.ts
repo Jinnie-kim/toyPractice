@@ -15,7 +15,7 @@ const $monsterName = document.querySelector('#monster-name') as HTMLSpanElement;
 const $monsterHp = document.querySelector('#monster-hp') as HTMLSpanElement;
 const $monsterAtt = document.querySelector('#monster-att') as HTMLSpanElement;
 // 게임 상황 메시지
-const $message = document.querySelector('#message');
+const $message = document.querySelector('#message') as HTMLDivElement;
 
 const hero: HeroStat = {
   name: '',
@@ -97,7 +97,16 @@ $gameMenu.addEventListener('submit', (event: Event) => {
 $battleMenu.addEventListener('submit', (event: Event) => {
   const input = (event.target as HTMLFormElement)['battle-menu'].value;
   if (input === '1') {
+    // 공격
+    if (monster === null) return;
+    hero.attack(monster);
+    monster.attack(hero);
+    $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
+    $monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
+    $message.textContent = `${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`;
   } else if (input === '2') {
+    // 회복
   } else if (input === '3') {
+    // 도망
   }
 });
