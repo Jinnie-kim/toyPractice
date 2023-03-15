@@ -90,8 +90,13 @@ class Game {
       this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다!`);
     } else if (input === '2') {
       // 휴식
+      if (this.hero === null) return;
+      this.hero.hp = this.hero.maxHp;
+      this.updateHeroStat();
+      this.showMessage('충분한 휴식을 취했다.');
     } else if (input === '3') {
       // 종료
+      this.showMessage(' ');
       this.quit();
     }
   };
