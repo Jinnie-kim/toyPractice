@@ -176,29 +176,42 @@ class Game {
   }
 }
 
-class Hero {
-  game: Game;
-  name: string;
+class Unit {
+  game;
+  name;
+  maxHp;
+  hp;
+  xp;
+  att;
+  constructor(game: Game, name: string, hp: number, att: number, xp: number) {
+    this.game = game;
+    this.name = name;
+    this.maxHp = hp;
+    this.hp = hp;
+    this.xp = xp;
+    this.att = att;
+  }
+
+  attack(target: HeroStat | MonsterStat) {
+    target.hp -= this.att;
+  }
+}
+
+class Hero extends Unit {
   lev: number;
-  maxHp: number;
-  hp: number;
-  xp: number;
-  att: number;
 
   constructor(game: Game, name: string) {
-    this.game = game; // game과 hero를 엮어주기 위해서
-    this.name = name;
+    super(game, name, 100, 10, 0);
+    //this.game = game; // game과 hero를 엮어주기 위해서
+
     this.lev = 1;
-    this.maxHp = 100;
-    this.hp = 100;
-    this.xp = 0;
-    this.att = 10;
+
     // this.game.updateHeroStat(); Hero안에서 게임 클래스에 접근해서 업데이트를 해도 된다.
   }
 
-  attack(target: MonsterStat) {
-    target.hp -= this.att;
-  }
+  // attack(target: MonsterStat) {
+  //   target.hp -= this.att;
+  // }
   heal(monster: MonsterStat) {
     this.hp += 20;
     this.hp -= monster.att;
@@ -218,24 +231,17 @@ class Hero {
   }
 }
 
-class Monster {
-  game: Game;
-  name: string;
+class Monster extends Unit {
   maxHp: number;
-  hp: number;
-  att: number;
-  xp: number;
+
   constructor(game: Game, name: string, hp: number, att: number, xp: number) {
-    this.game = game;
-    this.name = name;
+    super(game, name, hp, att, xp);
+
     this.maxHp = hp;
-    this.hp = hp;
-    this.xp = xp;
-    this.att = att;
   }
-  attack(target: HeroStat) {
-    target.hp -= this.att;
-  }
+  // attack(target: HeroStat) {
+  //   target.hp -= this.att;
+  // }
 }
 
 let game = null;
