@@ -54,6 +54,7 @@ function cardFlipped(this: any) {
     console.log('다 맞추셨네여');
     setTimeout(() => {
       alert('🤩축하합니다. 기억력이 좋으시네요!😽');
+      resetGame();
     }, 500);
   } else {
     console.log('다른 카드네여');
@@ -88,3 +89,11 @@ function startGame() {
 }
 
 startGame();
+
+function resetGame() {
+  $wrapper.innerHTML = '';
+  colorCopy = colors.concat(colors);
+  shuffled = [];
+  matchedCardArray = [];
+  startGame();
+}
