@@ -2,10 +2,14 @@ import './style.css';
 
 const $wrapper = document.querySelector('#wrapper') as HTMLDivElement;
 
-const total: number = 12;
-const colors: string[] = ['red', 'orange', 'yellow', 'green', 'white', 'pink'];
-let colorCopy: string[] = colors.concat(colors); // 2쌍의 배열을 만든다.
+const total: number = parseInt(prompt('카드 개수를 짝수로 입력하세요(최대 20).')!);
+const colors: string[] = ['red', 'orange', 'yellow', 'green', 'white', 'pink', 'cyan', 'violet', 'gray', 'black'];
+let colorSlice = colors.slice(0, total / 2);
+let colorCopy: string[] = colorSlice.concat(colorSlice); // 2쌍의 배열을 만든다.
 let shuffled: string[] = [];
+let gameStartTime: Date;
+let gameEndTime: Date;
+let timeDiffRecords: number;
 
 function shuffle() {
   // 피셔-예이츠 셔플
@@ -54,8 +58,10 @@ function cardFlipped(this: any) {
     flippedCardArray = [];
     if (matchedCardArray.length !== total) return;
     console.log('다 맞추셨네여');
+    gameEndTime = new Date();
+    timeDiffRecords = (gameEndTime.getTime() - gameStartTime.getTime()) / 1000;
     setTimeout(() => {
-      alert('🤩축하합니다. 기억력이 좋으시네요!😽');
+      alert(`🤩축하합니다. 기억력이 좋으시네요!😽 걸린 시간: ${timeDiffRecords}`);
       resetGame();
     }, 500);
   } else {
@@ -91,6 +97,7 @@ function startGame() {
       card.classList.remove('flipped');
     });
     clicked = true;
+    gameStartTime = new Date();
   }, 5000);
 }
 
