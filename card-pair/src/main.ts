@@ -32,10 +32,44 @@ function createCard(i: number) {
   return card;
 }
 
+let flippedCardArray: HTMLDivElement[] = [];
+let matchedCardArray: HTMLDivElement[] = [];
+
+function cardFlipped(this: any) {
+  this.classList.toggle('flipped');
+
+  flippedCardArray.push(this);
+
+  if (flippedCardArray.length !== 2) return;
+
+  const firstBackColor = ((flippedCardArray[0] as HTMLDivElement).querySelector('.card-back') as HTMLElement).style.backgroundColor;
+  const secondBackColor = ((flippedCardArray[1] as HTMLDivElement).querySelector('.card-back') as HTMLElement).style.backgroundColor;
+
+  if (firstBackColor === secondBackColor) {
+    // 두 카드가 같은 경우
+    console.log('같은 카드네여');
+    matchedCardArray = matchedCardArray.concat(flippedCardArray);
+    flippedCardArray = [];
+    if (matchedCardArray.length !== total) return;
+    console.log('다 맞추셨네여');
+    setTimeout(() => {
+      alert('🤩축하합니다. 기억력이 좋으시네요!😽');
+    }, 500);
+  } else {
+    console.log('다른 카드네여');
+    setTimeout(() => {
+      (flippedCardArray[0] as HTMLDivElement).classList.remove('flipped');
+      (flippedCardArray[1] as HTMLDivElement).classList.remove('flipped');
+      flippedCardArray = [];
+    }, 1000);
+  }
+}
+
 function startGame() {
   shuffle();
   for (let i = 0; i < total; i++) {
     const card = createCard(i);
+    card.addEventListener('click', cardFlipped);
     $wrapper.appendChild(card);
   }
 
