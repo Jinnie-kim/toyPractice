@@ -38,6 +38,19 @@ function startGame() {
     const card = createCard(i);
     $wrapper.appendChild(card);
   }
+
+  document.querySelectorAll('.card').forEach((card, index) => {
+    // 처음 카드 공개
+    setTimeout(() => {
+      card.classList.add('flipped');
+    }, 1000 + 100 * index);
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.card').forEach((card) => {
+      card.classList.remove('flipped');
+    });
+  }, 5000);
 }
 
 startGame();
