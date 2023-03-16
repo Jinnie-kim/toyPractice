@@ -60,10 +60,12 @@ function cardFlipped(this: any) {
     }, 500);
   } else {
     console.log('다른 카드네여');
+    clicked = false;
     setTimeout(() => {
       (flippedCardArray[0] as HTMLDivElement).classList.remove('flipped');
       (flippedCardArray[1] as HTMLDivElement).classList.remove('flipped');
       flippedCardArray = [];
+      clicked = true;
     }, 1000);
   }
 }
