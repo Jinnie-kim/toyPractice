@@ -37,7 +37,7 @@ let matchedCardArray: HTMLDivElement[] = [];
 let clicked: boolean = false;
 
 function cardFlipped(this: any) {
-  if (!clicked) return;
+  if (!clicked || matchedCardArray.includes(this) || flippedCardArray[0] === this) return;
   this.classList.toggle('flipped');
 
   flippedCardArray.push(this);
