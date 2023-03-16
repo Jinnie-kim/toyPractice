@@ -34,8 +34,10 @@ function createCard(i: number) {
 
 let flippedCardArray: HTMLDivElement[] = [];
 let matchedCardArray: HTMLDivElement[] = [];
+let clicked: boolean = false;
 
 function cardFlipped(this: any) {
+  if (!clicked) return;
   this.classList.toggle('flipped');
 
   flippedCardArray.push(this);
@@ -67,6 +69,7 @@ function cardFlipped(this: any) {
 }
 
 function startGame() {
+  clicked = false;
   shuffle();
   for (let i = 0; i < total; i++) {
     const card = createCard(i);
@@ -85,6 +88,7 @@ function startGame() {
     document.querySelectorAll('.card').forEach((card) => {
       card.classList.remove('flipped');
     });
+    clicked = true;
   }, 5000);
 }
 
