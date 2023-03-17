@@ -104,6 +104,7 @@ function countMine(rowIndex: number, cellIndex: number) {
 }
 
 function open(rowIndex: number, cellIndex: number) {
+  if (data[rowIndex]?.[cellIndex] >= CODE.OPENED) return; // 한 번 열었던 칸은 다시 열지 않도록 방지
   const target = $tbody.children[rowIndex]?.children[cellIndex];
   if (!target) {
     return;
