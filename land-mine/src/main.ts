@@ -18,7 +18,7 @@ const CODE: CodeType = {
   OPENED: 0, // 0 이상이면 모두 열린 칸
 };
 
-let data;
+let data: number[][];
 
 function plantMine() {
   const candidate = Array(row * cell)
@@ -54,6 +54,40 @@ function plantMine() {
   return data;
 }
 
+function onRightClick(event: Event) {
+  event.preventDefault();
+  const target = event.target as HTMLTableCellElement;
+  const rowIndex = (target.parentNode as HTMLTableRowElement).rowIndex;
+  const cellIndex = target.cellIndex;
+  const cellData = data[rowIndex][cellIndex];
+
+  if (cellData === CODE.MINE) {
+    data[rowIndex][cellIndex] = CODE.QUESTION_MINE; // 물음표 지뢰로 변경
+    target.className = 'question';
+    target.textContent = '?';
+  } else if (cellData === CODE.QUESTION_MINE) {
+    data[rowIndex][cellIndex] = CODE.FLAG_MINE; // 깃발 지뢰로 변경
+    target.className = 'flag';
+    target.textContent = '!';
+  } else if (cellData === CODE.FLAG_MINE) {
+    data[rowIndex][cellIndex] = CODE.MINE; // 지뢰로 변경
+    target.className = '';
+    target.textContent = 'X';
+  } else if (cellData === CODE.NORMAL) {
+    data[rowIndex][cellIndex] = CODE.QUESTION;
+    target.className = 'question';
+    target.textContent = '?';
+  } else if (cellData === CODE.QUESTION) {
+    data[rowIndex][cellIndex] = CODE.FLAG;
+    target.className = 'flag';
+    target.textContent = '!';
+  } else if (cellData === CODE.FLAG) {
+    data[rowIndex][cellIndex] = CODE.NORMAL;
+    target.className = '';
+    target.textContent = '';
+  }
+}
+
 function drawTable() {
   data = plantMine();
 
@@ -68,6 +102,7 @@ function drawTable() {
       $tr.append($td);
     });
     $tbody.append($tr);
+    $tr.addEventListener('contextmenu', onRightClick);
   });
 }
 
