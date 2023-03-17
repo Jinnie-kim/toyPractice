@@ -57,12 +57,13 @@ function plantMine() {
 function drawTable() {
   data = plantMine();
 
+  // 이차원 배열 만들기
   data.forEach((row) => {
     const $tr = document.createElement('tr');
     row.forEach((cell) => {
       const $td = document.createElement('td');
       if (cell === CODE.MINE) {
-        $td.textContent = 'X'; // 개발 편의를 위해
+        $td.textContent = 'X'; // 개발 편의를 위해, production에서는 지우거나 주석처리
       }
       $tr.append($td);
     });
