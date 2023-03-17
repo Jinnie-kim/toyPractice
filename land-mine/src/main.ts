@@ -4,16 +4,32 @@ import { CodeType } from './mineType';
 const $tbody = document.querySelector('#table tbody') as HTMLTableElement;
 const $result = document.querySelector('#result') as HTMLDivElement;
 const $timer = document.querySelector('#timer') as HTMLDivElement;
+const $form = document.querySelector('#form') as HTMLFormElement;
 
-const row = 10; // 줄
-const cell = 10; // 칸
-const mine = 10;
+let row: number; // 줄
+let cell: number; // 칸
+let mine: number;
 let openCount: number = 0;
-let startTime = new Date();
-const interval = setInterval(() => {
-  const time = Math.floor((new Date().getTime() - startTime.getTime()) / 1000);
-  $timer.textContent = `${time}초`;
-}, 1000);
+let startTime: Date;
+let interval: number;
+
+function customMineSetFormSubmit(event: Event) {
+  event.preventDefault();
+  row = parseInt((event.target as HTMLFormElement).row.value);
+  cell = parseInt((event.target as HTMLFormElement).cell.value);
+  mine = parseInt((event.target as HTMLFormElement).mine.value);
+  $tbody.innerHTML = '';
+  $result.textContent = '';
+  openCount = 0;
+  drawTable();
+  startTime = new Date();
+  interval = setInterval(() => {
+    const time = Math.floor((new Date().getTime() - startTime.getTime()) / 1000);
+    $timer.textContent = `${time}초`;
+  }, 1000);
+}
+
+$form.addEventListener('submit', customMineSetFormSubmit);
 
 const CODE: CodeType = {
   NORMAL: -1,
@@ -79,7 +95,7 @@ function onRightClick(event: Event) {
   } else if (cellData === CODE.FLAG_MINE) {
     data[rowIndex][cellIndex] = CODE.MINE; // 지뢰로 변경
     target.className = '';
-    target.textContent = 'X';
+    // target.textContent = '❕';
   } else if (cellData === CODE.NORMAL) {
     data[rowIndex][cellIndex] = CODE.QUESTION;
     target.className = 'question';
@@ -168,6 +184,7 @@ function onLeftClick(event: Event) {
     $result.textContent = '지뢰를 밟았습니다.';
     $tbody.removeEventListener('contextmenu', onRightClick);
     $tbody.removeEventListener('click', onLeftClick);
+    clearInterval(interval);
   }
   // 나머지는 무시
 }
@@ -181,7 +198,7 @@ function drawTable() {
     row.forEach((cell) => {
       const $td = document.createElement('td');
       if (cell === CODE.MINE) {
-        $td.textContent = 'X'; // 개발 편의를 위해, production에서는 지우거나 주석처리
+        // $td.textContent = '❕'; // 개발 편의를 위해, production에서는 지우거나 주석처리
       }
       $tr.append($td);
     });
@@ -190,5 +207,3 @@ function drawTable() {
     $tbody.addEventListener('click', onLeftClick);
   });
 }
-
-drawTable();
