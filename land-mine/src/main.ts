@@ -28,8 +28,8 @@ function plantMine() {
     });
 
   const shuffle = []; // 지뢰 넣을 배열 인덱스 저장
+  // 이게 머지? -> 지뢰를 10개 뽑는 공식이네, splice하면 지뢰 뽑힌 것만큼 candidate 배열도 줄어드니까
   while (candidate.length > row * cell - mine) {
-    // 이게 머지?
     const chosen = candidate.splice(Math.floor(Math.random() * candidate.length), 1)[0];
     shuffle.push(chosen);
   }
