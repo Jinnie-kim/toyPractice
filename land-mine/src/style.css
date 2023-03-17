@@ -1,3 +1,28 @@
 :root {
   font-family: sans-serif;
 }
+
+table {
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid #bbb;
+  text-align: center;
+  line-height: 20px;
+  width: 20px;
+  height: 20px;
+  background: #888;
+}
+
+td.opended {
+  background: white;
+}
+
+td.flag {
+  background: red;
+}
+
+td.question {
+  background: orange;
+}
