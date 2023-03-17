@@ -3,10 +3,17 @@ import { CodeType } from './mineType';
 
 const $tbody = document.querySelector('#table tbody') as HTMLTableElement;
 const $result = document.querySelector('#result') as HTMLDivElement;
+const $timer = document.querySelector('#timer') as HTMLDivElement;
 
 const row = 10; // 줄
 const cell = 10; // 칸
 const mine = 10;
+let openCount: number = 0;
+let startTime = new Date();
+const interval = setInterval(() => {
+  const time = Math.floor((new Date().getTime() - startTime.getTime()) / 1000);
+  $timer.textContent = `${time}초`;
+}, 1000);
 
 const CODE: CodeType = {
   NORMAL: -1,
@@ -113,6 +120,16 @@ function open(rowIndex: number, cellIndex: number) {
   target.textContent = `${count === 0 ? '' : count}` || '';
   target.className = 'opended';
   data[rowIndex][cellIndex] = count;
+  openCount++;
+  if (openCount === row * cell - mine) {
+    const time = (new Date().getTime() - startTime.getTime()) / 1000;
+    clearInterval(interval);
+    $tbody.removeEventListener('contextmenu', onRightClick);
+    $tbody.removeEventListener('click', onLeftClick);
+    setTimeout(() => {
+      alert(`승리했습니다. ${time}초가 걸렸습니다.`);
+    }, 500);
+  }
   return count;
 }
 
