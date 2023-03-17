@@ -64,11 +64,11 @@ function onRightClick(event: Event) {
   if (cellData === CODE.MINE) {
     data[rowIndex][cellIndex] = CODE.QUESTION_MINE; // 물음표 지뢰로 변경
     target.className = 'question';
-    target.textContent = '?';
+    target.textContent = '❓';
   } else if (cellData === CODE.QUESTION_MINE) {
     data[rowIndex][cellIndex] = CODE.FLAG_MINE; // 깃발 지뢰로 변경
     target.className = 'flag';
-    target.textContent = '!';
+    target.textContent = '❕';
   } else if (cellData === CODE.FLAG_MINE) {
     data[rowIndex][cellIndex] = CODE.MINE; // 지뢰로 변경
     target.className = '';
@@ -76,16 +76,53 @@ function onRightClick(event: Event) {
   } else if (cellData === CODE.NORMAL) {
     data[rowIndex][cellIndex] = CODE.QUESTION;
     target.className = 'question';
-    target.textContent = '?';
+    target.textContent = '❓';
   } else if (cellData === CODE.QUESTION) {
     data[rowIndex][cellIndex] = CODE.FLAG;
     target.className = 'flag';
-    target.textContent = '!';
+    target.textContent = '❕';
   } else if (cellData === CODE.FLAG) {
     data[rowIndex][cellIndex] = CODE.NORMAL;
     target.className = '';
     target.textContent = '';
   }
+}
+
+function countMine(rowIndex: number, cellIndex: number) {
+  const mines = [CODE.MINE, CODE.QUESTION_MINE, CODE.FLAG_MINE];
+  let i = 0;
+  mines.includes(data[rowIndex - 1]?.[cellIndex - 1]) && i++;
+  mines.includes(data[rowIndex - 1]?.[cellIndex]) && i++;
+  mines.includes(data[rowIndex - 1]?.[cellIndex + 1]) && i++;
+  mines.includes(data[rowIndex]?.[cellIndex - 1]) && i++;
+  mines.includes(data[rowIndex]?.[cellIndex + 1]) && i++;
+  mines.includes(data[rowIndex + 1]?.[cellIndex - 1]) && i++;
+  mines.includes(data[rowIndex + 1]?.[cellIndex]) && i++;
+  mines.includes(data[rowIndex + 1]?.[cellIndex + 1]) && i++;
+
+  return i;
+}
+
+function onLeftClick(event: Event) {
+  const target = event.target as HTMLTableCellElement;
+  const rowIndex = (target.parentNode as HTMLTableRowElement).rowIndex;
+  const cellIndex = target.cellIndex;
+  const cellData = data[rowIndex][cellIndex];
+
+  if (cellData === CODE.NORMAL) {
+    const count = countMine(rowIndex, cellIndex);
+    target.textContent = `${count}` || '';
+    target.className = 'opended';
+    data[rowIndex][cellIndex] = count;
+  } else if (cellData === CODE.MINE) {
+    // 지뢰
+    target.textContent = '💥';
+    target.className = 'opended';
+    $result.textContent = '지뢰를 밟았습니다.';
+    $tbody.removeEventListener('contextmenu', onRightClick);
+    $tbody.removeEventListener('click', onLeftClick);
+  }
+  // 나머지는 무시
 }
 
 function drawTable() {
@@ -102,7 +139,8 @@ function drawTable() {
       $tr.append($td);
     });
     $tbody.append($tr);
-    $tr.addEventListener('contextmenu', onRightClick);
+    $tbody.addEventListener('contextmenu', onRightClick);
+    $tbody.addEventListener('click', onLeftClick);
   });
 }
 
