@@ -103,6 +103,34 @@ function countMine(rowIndex: number, cellIndex: number) {
   return i;
 }
 
+function open(rowIndex: number, cellIndex: number) {
+  const target = $tbody.children[rowIndex]?.children[cellIndex];
+  if (!target) {
+    return;
+  }
+  const count = countMine(rowIndex, cellIndex);
+  target.textContent = `${count === 0 ? '' : count}` || '';
+  target.className = 'opended';
+  data[rowIndex][cellIndex] = count;
+  return count;
+}
+
+function openAround(rI: number, cI: number) {
+  setTimeout(() => {
+    const count = open(rI, cI);
+    if (count === 0) {
+      openAround(rI - 1, cI - 1);
+      openAround(rI - 1, cI);
+      openAround(rI - 1, cI + 1);
+      openAround(rI, cI - 1);
+      openAround(rI, cI + 1);
+      openAround(rI + 1, cI - 1);
+      openAround(rI + 1, cI);
+      openAround(rI + 1, cI + 1);
+    }
+  }, 0);
+}
+
 function onLeftClick(event: Event) {
   const target = event.target as HTMLTableCellElement;
   const rowIndex = (target.parentNode as HTMLTableRowElement).rowIndex;
@@ -110,10 +138,11 @@ function onLeftClick(event: Event) {
   const cellData = data[rowIndex][cellIndex];
 
   if (cellData === CODE.NORMAL) {
-    const count = countMine(rowIndex, cellIndex);
-    target.textContent = `${count}` || '';
-    target.className = 'opended';
-    data[rowIndex][cellIndex] = count;
+    openAround(rowIndex, cellIndex);
+    // const count = countMine(rowIndex, cellIndex);
+    // target.textContent = `${count}` || '';
+    // target.className = 'opended';
+    // data[rowIndex][cellIndex] = count;
   } else if (cellData === CODE.MINE) {
     // 지뢰
     target.textContent = '💥';
