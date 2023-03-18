@@ -196,6 +196,15 @@ function transferMine(rI: number, cI: number) {
   }
 }
 
+function showMines() {
+  const mines = [CODE.MINE, CODE.QUESTION_MINE, CODE.FLAG_MINE];
+  data.forEach((row, rowIndex) => {
+    row.forEach((cell, cellIndex) => {
+      if (mines.includes(cell)) $tbody.children[rowIndex].children[cellIndex].textContent = '❕';
+    });
+  });
+}
+
 function onLeftClick(event: Event) {
   const target = event.target as HTMLTableCellElement;
   const rowIndex = (target.parentNode as HTMLTableRowElement).rowIndex;
@@ -223,6 +232,7 @@ function onLeftClick(event: Event) {
     // data[rowIndex][cellIndex] = count;
   } else if (cellData === CODE.MINE) {
     // 지뢰
+    showMines();
     target.textContent = '💥';
     target.className = 'opended';
     $result.textContent = '지뢰를 밟았습니다.';
