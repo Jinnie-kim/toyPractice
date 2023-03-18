@@ -21,6 +21,9 @@ function customMineSetFormSubmit(event: Event) {
   $tbody.innerHTML = '';
   $result.textContent = '';
   openCount = 0;
+  normalCellFound = false;
+  searched = null;
+  firstClick = true;
   drawTable();
   startTime = new Date();
   interval = setInterval(() => {
@@ -95,7 +98,7 @@ function onRightClick(event: Event) {
   } else if (cellData === CODE.FLAG_MINE) {
     data[rowIndex][cellIndex] = CODE.MINE; // 지뢰로 변경
     target.className = '';
-    // target.textContent = '❕';
+    // target.textContent = '❕'; // 개발 편의를 위해
   } else if (cellData === CODE.NORMAL) {
     data[rowIndex][cellIndex] = CODE.QUESTION;
     target.className = 'question';
@@ -145,6 +148,7 @@ function open(rowIndex: number, cellIndex: number) {
     setTimeout(() => {
       alert(`승리했습니다. ${time}초가 걸렸습니다.`);
     }, 500);
+    clearInterval(interval);
   }
   return count;
 }
@@ -165,11 +169,51 @@ function openAround(rI: number, cI: number) {
   }, 0);
 }
 
+let normalCellFound = false;
+let searched: boolean[][] | null;
+let firstClick = true;
+
+function transferMine(rI: number, cI: number) {
+  if (normalCellFound) return; // 이미 빈칸을 찾았으면 종료
+  if (rI < 0 || rI > row || cI < 0 || cI >= cell) return;
+  if (searched !== null && searched[rI][cI]) return; // 이미 찾은 칸이면 종료
+  if (data[rI][cI] === CODE.NORMAL) {
+    // 빈칸인 경우
+    normalCellFound = true;
+    data[rI][cI] = CODE.MINE;
+  } else {
+    // 지뢰 칸인 경우 8방향 탐색
+    if (searched === null) return;
+    searched[rI][cI] = true;
+    transferMine(rI - 1, cI - 1);
+    transferMine(rI - 1, cI);
+    transferMine(rI - 1, cI + 1);
+    transferMine(rI, cI - 1);
+    transferMine(rI, cI + 1);
+    transferMine(rI + 1, cI - 1);
+    transferMine(rI + 1, cI);
+    transferMine(rI + 1, cI + 1);
+  }
+}
+
 function onLeftClick(event: Event) {
   const target = event.target as HTMLTableCellElement;
   const rowIndex = (target.parentNode as HTMLTableRowElement).rowIndex;
   const cellIndex = target.cellIndex;
-  const cellData = data[rowIndex][cellIndex];
+  let cellData = data[rowIndex][cellIndex];
+
+  if (firstClick) {
+    firstClick = false;
+    searched = Array(row)
+      .fill('')
+      .map(() => []);
+    if (cellData === CODE.MINE) {
+      // 첫 클릭이 지뢰면
+      transferMine(rowIndex, cellIndex);
+      data[rowIndex][cellIndex] = CODE.NORMAL;
+      cellData = CODE.NORMAL;
+    }
+  }
 
   if (cellData === CODE.NORMAL) {
     openAround(rowIndex, cellIndex);
@@ -182,6 +226,7 @@ function onLeftClick(event: Event) {
     target.textContent = '💥';
     target.className = 'opended';
     $result.textContent = '지뢰를 밟았습니다.';
+    clearInterval(interval);
     $tbody.removeEventListener('contextmenu', onRightClick);
     $tbody.removeEventListener('click', onLeftClick);
     clearInterval(interval);
