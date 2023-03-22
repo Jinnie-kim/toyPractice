@@ -48,6 +48,10 @@ function tick() {
 
 $$cells.forEach(($cell, index) => {
   ($cell.querySelector('.gopher') as HTMLDivElement).addEventListener('click', (event: Event) => {
+    if (!(event.target as HTMLDivElement).classList.contains('dead')) {
+      score += 1;
+      $score.textContent = `${score}`;
+    }
     (event.target as HTMLDivElement).classList.add('dead');
     (event.target as HTMLDivElement).classList.add('hidden');
     clearTimeout(holes[index]); // 기존 내려가는 타이머 제거 (클릭하는 즉시 두더지가 내려가도록)
