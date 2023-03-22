@@ -3,6 +3,7 @@ import './style.css';
 const $timer = document.querySelector('#timer') as HTMLSpanElement;
 const $score = document.querySelector('#score') as HTMLSpanElement;
 const $game = document.querySelector('#game') as HTMLDivElement;
+const $life = document.querySelector('#life') as HTMLSpanElement;
 const $start = document.querySelector('#start') as HTMLButtonElement;
 const $$cells = document.querySelectorAll('.cell');
 
@@ -12,12 +13,15 @@ const holes: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 let started: boolean = false; // flag 변수
 let score: number = 0;
 let time = 60;
+let life = 3;
+let timerId: number;
+let tickId: number;
 
 $start.addEventListener('click', () => {
   if (started) return; // 이미 시작했으면 무시
   started = true;
   console.log('시작');
-  const timerId = setInterval(() => {
+  timerId = setInterval(() => {
     time = (time * 10 - 1) / 10; // 소수점 계산 시 문제있음
     $timer.textContent = `${time}`;
     if (time === 0) {
@@ -28,7 +32,7 @@ $start.addEventListener('click', () => {
       }, 50);
     }
   }, 100);
-  const tickId = setInterval(tick, 1000);
+  tickId = setInterval(tick, 1000);
   tick();
 });
 
@@ -81,5 +85,14 @@ $$cells.forEach(($cell, index) => {
       holes[index] = 0;
       (event.target as HTMLDivElement).classList.remove('boom');
     }, 1000);
+    life--;
+    $life.textContent = `${life}`;
+    if (life === 0) {
+      setTimeout(() => {
+        clearInterval(timerId);
+        clearTimeout(tickId);
+        alert(`게임 오버! 점수는 ${score}점`);
+      }, 50);
+    }
   });
 });
